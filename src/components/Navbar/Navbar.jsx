@@ -22,6 +22,10 @@ export default function Navbar() {
                     <NavLink to="/users" className={({ isActive }) => isActive ? classes.active : ""}>Users</NavLink>
                 </li>
             </ul>
+
+            <ul>
+                <li><a href="https://social-network.samuraijs.com/docs#auth" target="_blank">Kama API</a></li>
+            </ul>
         </nav>
     );
 }

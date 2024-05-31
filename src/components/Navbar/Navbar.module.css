@@ -5,3 +5,7 @@
 .item a.active {
     color: gold;
 }
+
+.nav ul {
+    list-style-type: none;
+}

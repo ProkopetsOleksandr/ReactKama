@@ -2,3 +2,22 @@
     width: 50px;
     height: 50px;
 }
+
+.paginator {
+    display: flex;
+    gap: 0 20px;
+    margin-bottom: 1em;
+    cursor: pointer;
+}
+
+.paginator div {
+    border: 1px solid black;
+    padding: 5px 10px;
+    min-width: 20px;
+    text-align: center;
+}
+
+.selectedPage {
+    background-color: coral;
+    color: white;
+}
