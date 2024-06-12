@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsersAction, setUsersPageAction, toggleFollowStateAction } from "../../redux/users.slice";
+import { fetchUsersAction, followAction, setUsersPageAction, unfollowAction } from "../../redux/users.slice";
 import Users from "./Users";
 
 const UsersContainer = (props) => {
@@ -11,8 +11,12 @@ const UsersContainer = (props) => {
         dispatch(fetchUsersAction());
     }, [dispatch]);
 
-    function toggleFollowState(userId) {
-        dispatch(toggleFollowStateAction({ userId }))
+    function follow(userId) {
+        dispatch(followAction({ userId }));
+    }
+
+    function unfollow(userId) {
+        dispatch(unfollowAction({ userId }));
     }
 
     function setUsersPage(page) {
@@ -25,7 +29,8 @@ const UsersContainer = (props) => {
             currentPage={currentPage}
             pageSize={pageSize}
             totalUsersCount={totalUsersCount}
-            toggleFollowState={toggleFollowState}
+            follow={follow}
+            unfollow={unfollow}
             setUsersPage={setUsersPage} />
     );
 }

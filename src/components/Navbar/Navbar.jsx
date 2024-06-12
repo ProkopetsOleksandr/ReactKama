@@ -24,7 +24,7 @@ export default function Navbar() {
             </ul>
 
             <ul>
-                <li><a href="https://social-network.samuraijs.com/docs#auth" target="_blank">Kama API</a></li>
+                <li><a href="https://social-network.samuraijs.com/docs#auth" target="_blank" rel="noreferrer">Kama API</a></li>
             </ul>
         </nav>
     );

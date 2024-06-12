@@ -1,8 +1,9 @@
 import React from "react";
 import defaultLogo from '../../assets/images/logo.svg';
 import classes from './Users.module.css';
+import { NavLink } from "react-router-dom";
 
-const Users = ({ users, currentPage, pageSize, totalUsersCount, toggleFollowState, setUsersPage }) => {
+const Users = ({ users, currentPage, pageSize, totalUsersCount, follow, unfollow, setUsersPage }) => {
     const pagesCount = Math.ceil(totalUsersCount / pageSize);
 
     function buildPaginator() {
@@ -54,10 +55,13 @@ const Users = ({ users, currentPage, pageSize, totalUsersCount, toggleFollowStat
                 return <div key={user.id} style={{ display: 'flex', gap: '50px', marginBottom: '25px' }}>
                     <div>
                         <div>
-                            <img src={user.photos.small ?? defaultLogo} alt="account" className={classes.userPhoto} />
+                            <NavLink to={ '/profile/' + user.id }>
+                                <img src={user.photos.small ?? defaultLogo} alt="account" className={classes.userPhoto} />
+                            </NavLink>
                         </div>
                         <div>
-                            <button onClick={() => toggleFollowState(user.id)}>{user.followed ? 'Unfollow' : 'Follow'}</button>
+                            {!user.followed && <button onClick={() => follow(user.id)}>Follow</button>}
+                            {user.followed && <button onClick={() => unfollow(user.id)}>Unfollow</button>}
                         </div>
                     </div>
 

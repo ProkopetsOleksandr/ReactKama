@@ -6,7 +6,7 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo";
 export default function Profile(props) {
     return (
         <div>
-            <ProfileInfo />
+            <ProfileInfo profileData={props.profileData} status={props.status} updateStatus={props.updateStatus} />
             <MyPosts />
         </div>
     );

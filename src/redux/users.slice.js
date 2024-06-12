@@ -1,13 +1,26 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import usersAPI from "../api/api";
 
-export const fetchUsersAction = createAsyncThunk("users/fetchUsers", async (payload, thunkApi) => {
-    const state = thunkApi.getState().users;
+export const fetchUsersAction = createAsyncThunk("users/fetchUsers", (payload, { getState }) => {
+    const state = getState().users;
 
-    return await axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${state.currentPage}&count=${state.pageSize}`)
+    return usersAPI.getUsers(state.currentPage, state.pageSize)
         .then((response) => {
-            console.log(response.data);
-            return response.data;
+            return response;
+        });
+});
+
+export const followAction = createAsyncThunk("users/follow", function (payload) {
+    return usersAPI.follow(payload.userId)
+        .then(response => {
+            return payload;
+        });
+});
+
+export const unfollowAction = createAsyncThunk("users/unfollow", function (payload) {
+    return usersAPI.unfollow(payload.userId)
+        .then(response => {
+            return payload;
         });
 });
 
@@ -20,12 +33,6 @@ const usersSlice = createSlice({
         totalUsersCount: 0
     },
     reducers: {
-        toggleFollowStateAction(state, action) {
-            const user = state.users.find(user => user.id === action.payload.userId);
-            if (user) {
-                user.followed = !user.followed;
-            }
-        },
         setUsersPageAction(state, action) {
             state.currentPage = action.payload.page;
         }
@@ -35,9 +42,23 @@ const usersSlice = createSlice({
             state.users = action.payload.items;
             state.totalUsersCount = action.payload.totalCount;
         });
+
+        builder.addCase(followAction.fulfilled, (state, action) => {
+            const user = state.users.find(user => user.id === action.payload.userId);
+            if (user) {
+                user.followed = !user.followed;
+            }
+        });
+
+        builder.addCase(unfollowAction.fulfilled, (state, action) => {
+            const user = state.users.find(user => user.id === action.payload.userId);
+            if (user) {
+                user.followed = !user.followed;
+            }
+        });
     }
 });
 
 export default usersSlice.reducer;
 
-export const { toggleFollowStateAction, setUsersPageAction } = usersSlice.actions;
+export const { setUsersPageAction } = usersSlice.actions;
