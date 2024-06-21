@@ -39,6 +39,18 @@ const getCurrentUserData = () => {
         });
 }
 
+const login = (email, password, rememberMe = false) => {
+    return axiosInstance.post("auth/login", {
+        email,
+        password,
+        rememberMe
+    });
+}
+
+const logout = () => {
+    return axiosInstance.delete("auth/login");
+}
+
 const getStatus = (userId = 31315) => {
     return axiosInstance.get(`profile/status/${userId}`)
         .then((response) => {
@@ -61,9 +73,12 @@ const usersAPI = {
     follow,
     unfollow,
     getUserProfile,
-    getCurrentUserData,
     getStatus,
-    updateStatus
+    updateStatus,
+
+    getCurrentUserData,
+    login,
+    logout
 };
 
 export default usersAPI;

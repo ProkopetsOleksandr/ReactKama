@@ -15,19 +15,14 @@ const dialogsSlice = createSlice({
             { text: 'Hello!' },
             { text: 'Hi!' },
             { text: 'How are you?' }
-        ],
-        newMessageBody: ''
+        ]
     },
     reducers: {
-        updateNewMessageBody(state, action) {
-            state.newMessageBody = action.payload.value;
-        },
         sendMessage(state, action) {
-            state.messages.push({ text: state.newMessageBody });
-            state.newMessageBody = '';
+            state.messages.push({ text: action.payload.newMessageBody });
         }
     }
 });
 
 export default dialogsSlice.reducer;
-export const { updateNewMessageBody, sendMessage } = dialogsSlice.actions;
+export const { sendMessage } = dialogsSlice.actions;

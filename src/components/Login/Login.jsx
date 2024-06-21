@@ -1,7 +1,8 @@
 import { useFormik } from "formik";
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { loginAction } from "../../redux/auth.slice";
 import classes from './Login.module.css';
 
 const LoginForm = (props) => {
@@ -13,7 +14,7 @@ const LoginForm = (props) => {
             rememberMe: false
         },
         onSubmit: function (values) {
-            alert(JSON.stringify(values, null, 2));
+            props.onSubmit(values);
         },
         validate: function (values) {
             const errors = {};
@@ -52,20 +53,25 @@ const LoginForm = (props) => {
 }
 
 const Login = () => {
-    // const { isAuthenticated } = useSelector(state => state.auth);
-    // const navigate = useNavigate();
-    // const { state } = useLocation();
+    const { isAuthenticated } = useSelector(state => state.auth);
+    const navigate = useNavigate();
+    const { state } = useLocation();
+    const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     if (isAuthenticated) {
-    //         navigate(state?.path || "/");
-    //     }
-    // });
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate(state?.path || "/");
+        }
+    });
+
+    function handleLoginFormSubmit(values) {
+        dispatch(loginAction({ email: values.login, password: values.password, rememberMe: values.rememberMe }));
+    }
 
     return (
         <div className={classes.loginPageContainer}>
             <h1>Login</h1>
-            <LoginForm />
+            <LoginForm onSubmit={handleLoginFormSubmit} />
         </div>
     );
 }
